@@ -19,6 +19,7 @@ const Managers = () => {
   const [updatedManagerData, setUpdatedManagerData] = useState({});
 
   const [buildings, setBuildings] = useState([]);
+  
 
   useEffect(() => {
     const fetchBuildings = async () => {
@@ -142,7 +143,7 @@ const Managers = () => {
   return (
     <Grid container>
       <Grid item xs={3}>
-        <Sidebar />
+      <Sidebar />
       </Grid>
       <Grid item xs={9}>
         <Topbar />

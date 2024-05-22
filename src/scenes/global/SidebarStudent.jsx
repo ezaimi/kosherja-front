@@ -1,7 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -35,11 +35,34 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
   );
 };
 
-const Sidebar = () => {
+const SidebarStudent = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
+
+  const [userName, setUserName] = useState(''); // Add state for userName
+  const [userSurname, setUserSurname] = useState(''); // Add state for userSurname
+
+  const {studentId}=useParams();
+
+
+  //const { studentId } = useParams(); 
+
+  useEffect(() => {
+    console.log("studentId:", studentId); // Add this line to debug
+
+
+    const storedUserName = localStorage.getItem('userName');
+    const storedUserSurname = localStorage.getItem('userSurname');
+    if (storedUserName) {
+      setUserName(storedUserName);
+    }
+    if (storedUserSurname) {
+      setUserSurname(storedUserSurname);
+    }
+  }, [studentId]);
+
 
   return (
     <Box
@@ -104,15 +127,15 @@ const Sidebar = () => {
               </Box>
               <Box textAlign="center">
                 <Typography
-                  variant="h2"
+                  variant="h3"
                   color={colors.grey[100]}
                   fontWeight="bold"
                   sx={{ m: "10px 0 0 0" }}
                 >
-                  Ed Roh
+                 {userName} {userSurname}
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
-                  VP Fancy Admin
+                  Student Menu
                 </Typography>
               </Box>
             </Box>
@@ -127,13 +150,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Data
-            </Typography>
+            </Typography> */}
             {/* <Item
               title="Manage Team"
               to="/team"
@@ -141,28 +164,49 @@ const Sidebar = () => {
               selected={selected}
               setSelected={setSelected}
             /> */}
-            <Item
-              title="Managers Information"
-              to="/admin"
+             <Item
+              title="Main Page"
+              to="/student"
               icon={<ContactsOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Add Manager"
+              title="Documents"
+              to={`student/contract/${studentId}`}
+              icon={<ContactsOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
+              title="Room Details"
+              to={`/room/details/${studentId}`}
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+             <Item
+              title="Contract Details"
               to="/form"
               icon={<ReceiptOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
-
-            <Typography
+             <Item
+              title="Payment History"
+              to="/form"
+              icon={<ReceiptOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+           
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
               Facilities
-            </Typography>
+            </Typography> */}
             {/* <Item
               title="Profile Form"
               to="/form"
@@ -171,34 +215,34 @@ const Sidebar = () => {
               setSelected={setSelected}
             /> */}
             <Item
-              title="Buildings"
+              title="Transport Timetable"
               to="/buildings"
               icon={<CalendarTodayOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
             <Item
-              title="Rooms"
-              to="/rooms"
+              title="Book a Meeting"
+              to="/faq"
               icon={<HelpOutlineOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
             />
 
-            <Typography
+            {/* <Typography
               variant="h6"
               color={colors.grey[300]}
-              sx={{ m: "15px 0 5px 20px" }}
+              sx={{ m: "35px 0 5px 20px" }}
             >
               Other
-            </Typography>
-            <Item
+            </Typography> */}
+            {/* <Item
               title="Survey"
               to="/survey/66056eceed264d32762140f5"
               icon={<BarChartOutlinedIcon />}
               selected={selected}
               setSelected={setSelected}
-            />
+            /> */}
             <Item
               title="Settings"
               to="/pie"
@@ -227,4 +271,4 @@ const Sidebar = () => {
   );
 };
 
-export default Sidebar;
+export default SidebarStudent;
